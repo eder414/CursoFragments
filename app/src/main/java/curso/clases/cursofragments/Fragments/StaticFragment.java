@@ -18,11 +18,15 @@ public class StaticFragment extends Fragment {
     EditText editTextEstatico;
     Button btnCambiar;
     private FragmentStaticListener listener;
+    Context contexto;
 
     public StaticFragment() {
         // Required empty public constructor
     }
-
+    public StaticFragment(Context contexto) {
+        // Required empty public constructor
+        this.contexto = contexto;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

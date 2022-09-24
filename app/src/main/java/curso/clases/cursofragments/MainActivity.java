@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,7 @@ import curso.clases.cursofragments.Fragments.NoticiasFragment;
 import curso.clases.cursofragments.Fragments.StaticFragment;
 import curso.clases.cursofragments.Models.Fragmentos;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+public class MainActivity <T> extends AppCompatActivity implements View.OnClickListener,
             NoticiasFragment.FragmentNoticiasListener,
             StaticFragment.FragmentStaticListener,
             DeportesFragment.FragmentDeportesListener,
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCiencia = findViewById(R.id.btnCiencia);
 
         /*Instancias todos los fragmentos*/
-        fragmentos = new Fragmentos(new  CienciaFragment() , new DeportesFragment(),new NoticiasFragment(), new StaticFragment());
+        fragmentos = new Fragmentos(new  CienciaFragment() , new DeportesFragment(),new NoticiasFragment(), new StaticFragment(MainActivity.this));
         fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
@@ -72,12 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private <T> void CambiarFragmento(T fragmento) {
         fragmentManager.beginTransaction()
-                .replace(R.id.FragmentContainerViewDinamico, (Fragment) fragmento,null)
-                .replace(R.id.FragmentContainerViewEstatico, fragmentos.getStaticFragment(),null)
+                .replace(R.id.FragmentContainerViewDinamico, (Fragment) fragmento,"Primary")
+                .replace(R.id.FragmentContainerViewEstatico, fragmentos.getStaticFragment(),"Secondly")
                 .setReorderingAllowed(true)
                 .addToBackStack("name")
-                .commit()
-        ;
+                .commit();
     }
 
     @Override
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onInputDeportesSent(CharSequence input) {
         fragmentos.getStaticFragment().ActualizarTexto(input);
+
     }
 
     @Override
