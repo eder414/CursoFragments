@@ -15,7 +15,11 @@ import curso.clases.cursofragments.Fragments.NoticiasFragment;
 import curso.clases.cursofragments.Fragments.StaticFragment;
 import curso.clases.cursofragments.Models.Fragmentos;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,NoticiasFragment.FragmentNoticiasListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+            NoticiasFragment.FragmentNoticiasListener,
+            StaticFragment.FragmentStaticListener,
+            DeportesFragment.FragmentDeportesListener,
+            CienciaFragment.FragmentCienciaListener{
 
     FragmentManager fragmentManager;
     /*NewsFragment newsFragment;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fragmentManager.beginTransaction()
                 .replace(R.id.FragmentContainerViewDinamico, fragmentos.getDeportesFragment(),null)
+                .replace(R.id.FragmentContainerViewEstatico, fragmentos.getStaticFragment(),null)
                 .setReorderingAllowed(true)
                 .addToBackStack("name")
                 .commit()
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private <T> void CambiarFragmento(T fragmento) {
         fragmentManager.beginTransaction()
                 .replace(R.id.FragmentContainerViewDinamico, (Fragment) fragmento,null)
+                .replace(R.id.FragmentContainerViewEstatico, fragmentos.getStaticFragment(),null)
                 .setReorderingAllowed(true)
                 .addToBackStack("name")
                 .commit()
@@ -76,7 +82,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onInputNoticiasSent(CharSequence texto) {
-        //StaticFragment staticFragment = new StaticFragment();
-        //staticFragment.ActualizarTexto(texto);
+        fragmentos.getStaticFragment().ActualizarTexto(texto);
+    }
+
+    @Override
+    public void onInputStaticSent(CharSequence texto) {
+        fragmentos.getNoticiasFragment().ActualizarTexto(texto);
+    }
+
+    @Override
+    public void onInputDeportesSent(CharSequence input) {
+        fragmentos.getStaticFragment().ActualizarTexto(input);
+    }
+
+    @Override
+    public void onInputCienciaSent(CharSequence input) {
+        fragmentos.getStaticFragment().ActualizarTexto(input);
     }
 }
